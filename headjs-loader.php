@@ -1,7 +1,7 @@
 <?php
 /**
 Plugin Name: Head JS Loader
-Plugin URI: http://www.ilinea.com
+Plugin URI: http://wordpress.org/extend/plugins/headjs-loader/
 Description: A plugin to load <a href="http://headjs.com">Head JS</a> in Wordpress.
 Version: 0.1
 Author: Ilinea
