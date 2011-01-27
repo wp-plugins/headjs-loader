@@ -3,7 +3,7 @@
 Plugin Name: Head JS Loader
 Plugin URI: http://wordpress.org/extend/plugins/headjs-loader/
 Description: A plugin to load <a href="http://headjs.com">Head JS</a> in Wordpress.
-Version: 0.1
+Version: 0.1.1
 Author: Ilinea
 Author URI: http://www.ilinea.com
 Text Domain: headjs-loader
@@ -56,31 +56,35 @@ class headJS_loader {
 	 */
 	function modify_buffer($buffer) {
 	
+		$script_array = array();
 		/* Look for any script tags in the buffer */
-		preg_match_all('/<script([^>]*?)><\/script>/i', $buffer, $script_tags_match);
-		foreach ($script_tags_match[0] as $script_tag) {
-			if (strpos(strtolower($script_tag), 'text/javascript') !== false) {
-				preg_match('/src=[\'"]([^\'"]+)/', $script_tag, $src_match);
-				if ($src_match[1]) {
-					/* Remove the script tags */
-					$buffer = str_replace($script_tag, '', $buffer);
-					/* Save the script location */
-					$script_array[] = $src_match[1];
+		preg_match_all('/<script([^>]*?)><\/script>/i', $buffer, $script_tags_match);		
+		if (!empty($script_tags_match[0])) {
+			foreach ($script_tags_match[0] as $script_tag) {
+				if (strpos(strtolower($script_tag), 'text/javascript') !== false) {
+					preg_match('/src=[\'"]([^\'"]+)/', $script_tag, $src_match);
+					if ($src_match[1]) {
+						/* Remove the script tags */
+						$buffer = str_replace($script_tag, '', $buffer);
+						/* Save the script location */
+						$script_array[] = $src_match[1];
+					}
 				}
 			}
 		}
-		
+	
 		/* Sort out the Head JS */
 		$headJS = '<script type="text/javascript" src="' . get_bloginfo('wpurl') . '/wp-content/plugins/' . $this->_pluginName . '/head.min.js"></script>';
-		$script_array = array_unique($script_array);
-		$i=0;
-		foreach ($script_array as $script_location) {
-			/* Load the scripts into a .js */
-			if ($i != 0) { $js_files .= "\n    "; }
-			$js_files .= '.js("' . $script_location . '")';
-			$i++;
-		}
-		if(!empty($script_array)) {
+		
+		if (!empty($script_array)) {
+			$script_array = array_unique($script_array);
+			$i=0;
+			foreach ($script_array as $script_location) {
+				/* Load the scripts into a .js */
+				if ($i != 0) { $js_files .= "\n    "; }
+				$js_files .= '.js("' . $script_location . '")';
+				$i++;
+			}
 			$headJS .= "\n<script>\nhead" . $js_files . ";\n</script>";
 		}
 		

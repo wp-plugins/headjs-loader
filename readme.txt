@@ -43,6 +43,7 @@ head.js("http://yoururl.com/wp-includes/js/prototype.js?ver=1.6.1")
 </script> 
 </code></pre>
 
+If you would like to see Head JS added to the Google CDN library (like I would), then go to <a href="http://code.google.com/p/google-ajax-apis/issues/detail?id=548">http://code.google.com/p/google-ajax-apis/issues/detail?id=548</a> and star the issue.
 
 == Installation ==
 
@@ -59,7 +60,13 @@ No answers.
 
 == Upgrade Notice ==
 
+= 0.1.1 =
+Fixed bug that caused apache erorr messages if no javascript was declared.
+
 == Changelog ==
 
+= 0.1.1 =
+* Fixed bug that caused apache erorr messages if no javascript was declared.
+
 = 0.1 =
-Initial release.
+* Initial release.
